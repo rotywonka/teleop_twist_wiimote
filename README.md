@@ -9,7 +9,9 @@ To run:
         mkdir -p ~/catkin_ws/src  
         cd catkin_ws/src  
         git clone https://github.com/bennergarrett/ROS_TWIST_WIIMOTE
-        mv ROS_TWIST_WIIMOTE teleop_twist_wiimote
+        mv ROS_TWIST_WIIMOTE teleop_twist_wiimotehttps://github.com/bennergarrett/ROS_TWIST_WIIMOTE
+        cd ~/catkin_ws/src/teleop_twist_wiimote
+        chmod +x teleop_twist_wiimote.py
         cd ~/catkin_ws  
         catkin_make
 ```
