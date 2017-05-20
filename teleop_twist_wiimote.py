@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 import roslib; roslib.load_manifest('teleop_twist_wiimote')
 import rospy
-import cwiid
-import time
 
 from geometry_msgs.msg import Twist
+
 import sys, select, termios, tty
+import cwiid
+import time
 
 msg = """
 Reading from the keyboard  and Publishing to Twist!
@@ -14,17 +15,22 @@ Moving around:
    u    i    o
    j    k    l
    m    ,    .
+
 For Holonomic mode (strafing), hold down the shift key:
 ---------------------------
    U    I    O
    J    K    L
    M    <    >
+
 t : up (+z)
 b : down (-z)
+
 anything else : stop
+
 q/z : increase/decrease max speeds by 10%
 w/x : increase/decrease only linear speed by 10%
 e/c : increase/decrease only angular speed by 10%
+
 CTRL-C to quit
 """
 
@@ -58,7 +64,7 @@ speedBindings={
 		'c':(1,.9),
 	      }
 
-def getstate(wm):
+def getState(wm):
     key = ''
     if wm.state['buttons'] == 2048: #up 
         key = 'i'       
@@ -87,14 +93,11 @@ def getstate(wm):
     return key
 
 
-
-
 def vels(speed,turn):
 	return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
-    	#settings = termios.tcgetattr(sys.stdin)
-	
+
 	pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
 	rospy.init_node('teleop_twist_wiimote')
 
@@ -107,21 +110,17 @@ if __name__=="__main__":
 	status = 0
 
 	try:
-		print 'Press button 1 + 2 on your Wii Remote...'
-        time.sleep(1)
-
-        wm=cwiid.Wiimote()
+		time.sleep(1)
+		wm=cwiid.Wiimote()
 		print 'Wii Remote connected...'
 		print '\nPress the PLUS button to disconnect the Wii and end the application'
-        time.sleep(1)
-        wm.rpt_mode = cwiid.RPT_BTN
-		print msg
-		print vels(speed,turn)
+		time.sleep(1)
+        	wm.rpt_mode = cwiid.RPT_BTN
+                print msg
+                print vels(speed,turn)
 
-		
-	
 		while(1):
-			key = getstate(wm)
+			key = getState(wm)
 			if key in moveBindings.keys():
 				x = moveBindings[key][0]
 				y = moveBindings[key][1]
@@ -149,7 +148,7 @@ if __name__=="__main__":
 			pub.publish(twist)
 
 	except:
-		print 'ERROR!!'
+		print "error"
 
 	finally:
 		twist = Twist()
@@ -157,5 +156,5 @@ if __name__=="__main__":
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
 		pub.publish(twist)
 
-    		#termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+
 
