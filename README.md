@@ -2,10 +2,10 @@
 Generic Keyboard Teleop for ROS
 #Install
 
-To run: `sudo apt-get update  
-         sudo apt-get install python-cwiid  
-         mkdir -p ~/catkin_ws/src  
-         cd catkin_ws/src  
+To run: `sudo apt-get update`    
+        `sudo apt-get install python-cwiid`   
+        `mkdir -p ~/catkin_ws/src`  
+        `cd catkin_ws/src`  
          git clone https://github.com/bennergarrett/ROS_TWIST_WIIMOTE  
          cd ~/catkin_ws  
          catkin_make`
