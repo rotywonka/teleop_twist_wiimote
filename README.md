@@ -2,7 +2,7 @@
 Generic Keyboard Teleop for ROS
 #Install
 
-To run: 
+To run:  
 
         `sudo apt-get update`    
         `sudo apt-get install python-cwiid`   
@@ -16,7 +16,8 @@ To run:
 You need to make sure you have a roscore running.  
 
 
-To run: 
+To run:  
+
          `cd ~/catkin_ws`  
          `. devel/setup.bash`  
          `rosrun teleop_twist_wiimote teleop_twist_wiimote.py`  
