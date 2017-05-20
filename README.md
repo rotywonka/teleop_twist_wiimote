@@ -1,7 +1,9 @@
 # teleop_twist_wiimote
 Generic Keyboard Teleop for ROS
 #Install
+
 To run: `sudo apt-get update`
+
         `sudo apt-get install python-cwiid`
 
 #Launch
