@@ -28,7 +28,8 @@ To run:
 ```
 #Usage  
 ```
-Reading from the keyboard  and Publishing to Twist!
+Reading from the wiimote and Publishing to Twist!
+This section needs updating....
 ---------------------------
 Moving around:
    u    i    o
