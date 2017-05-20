@@ -10,8 +10,8 @@ To run: `sudo apt-get update
          cd ~/catkin_ws  
          catkin_make`
 
-#Launch
-You need to make sure you have a roscore running.
+#Launch  
+You need to make sure you have a roscore running.  
 To run: `cd ~/catkin_ws  
          . devel/setup.bash  
          rosrun teleop_twist_wiimote teleop_twist_wiimote.py`  
