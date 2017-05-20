@@ -2,21 +2,24 @@
 Generic Keyboard Teleop for ROS
 #Install
 
-To run: `sudo apt-get update`    
+To run: 
+
+        `sudo apt-get update`    
         `sudo apt-get install python-cwiid`   
         `mkdir -p ~/catkin_ws/src`  
         `cd catkin_ws/src`  
-         git clone https://github.com/bennergarrett/ROS_TWIST_WIIMOTE  
-         cd ~/catkin_ws  
-         catkin_make`
+        `git clone https://github.com/bennergarrett/ROS_TWIST_WIIMOTE`  
+        `cd ~/catkin_ws`  
+        `catkin_make`
 
 #Launch  
 You need to make sure you have a roscore running.  
-To run: `cd ~/catkin_ws  
-         . devel/setup.bash  
-         rosrun teleop_twist_wiimote teleop_twist_wiimote.py`  
+To run: 
+         `cd ~/catkin_ws`  
+         `. devel/setup.bash`  
+         `rosrun teleop_twist_wiimote teleop_twist_wiimote.py`  
 
-#Usage
+#Usage  
 ```
 Reading from the keyboard  and Publishing to Twist!
 ---------------------------
