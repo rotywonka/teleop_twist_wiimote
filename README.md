@@ -1,5 +1,5 @@
 # teleop_twist_wiimote
-Generic Keyboard Teleop for ROS  
+Wiimote Teleop revised from Generic Keyboard Teleop for ROS  
 
 #Install
 
