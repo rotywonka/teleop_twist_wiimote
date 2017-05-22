@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import roslib; roslib.load_manifest('teleop_twist_wiimote')
 import rospy
+import cwiid
+import time
 
 from geometry_msgs.msg import Twist
 
 import sys, select, termios, tty
-import cwiid
-import time
 
 msg = """
 Reading from the keyboard  and Publishing to Twist!
@@ -15,22 +15,17 @@ Moving around:
    u    i    o
    j    k    l
    m    ,    .
-
 For Holonomic mode (strafing), hold down the shift key:
 ---------------------------
    U    I    O
    J    K    L
    M    <    >
-
 t : up (+z)
 b : down (-z)
-
 anything else : stop
-
 q/z : increase/decrease max speeds by 10%
 w/x : increase/decrease only linear speed by 10%
 e/c : increase/decrease only angular speed by 10%
-
 CTRL-C to quit
 """
 
@@ -64,40 +59,41 @@ speedBindings={
 		'c':(1,.9),
 	      }
 
-def getState(wm):
-    key = ''
-    if wm.state['buttons'] == 2048: #up 
-        key = 'i'       
-    if wm.state['buttons'] == 1024: #down
-        key = ','       
-    if wm.state['buttons'] == 512:  #right
-        key = 'l'
-    if wm.state['buttons'] == 256:  #left
-        key = 'j'
-    if wm.state['buttons'] == 4+4096:       #B&+
-        key = 'q'       #speed up(movement and turning)
-    if wm.state['buttons'] == 4+16:         #B&-
-        key = 'z'       #slow down(movement and turning)
-    if wm.state['buttons'] == 128:	#home
-        print 'closing Bluetooth connection. Good Bye!'
-        time.sleep(1)
-        exit(wm)	#exit
-    if wm.state['buttons'] == 4096:	# +
-        key = 'w'	#speed up(movement)
-    if wm.state['buttons'] == 16:	# -
-        key = 'x' #slow down(movement)
+def getstate(wm):
+	key = ''
+	if wm.state['buttons'] == 2048:	#up
+		key = 'i'
+	if wm.state['buttons'] == 1024:	#down
+		key = ','
+	if wm.state['buttons'] == 512: 	#right
+		key = 'l'
+	if wm.state['buttons'] == 256:	#left
+		key = 'j'
+	if wm.state['buttons'] == 4+4096:	#B&+
+		key = 'q'	#speed up(movement and turning)
+	if wm.state['buttons'] == 4+16:		#B&-
+		key = 'z'	#slow down(movement and turning)
+	if wm.state['buttons'] == 128:
+		print 'closing Bluetooth connection. Good Bye!'
+		time.sleep(1)
+		exit(wm)
+	if wm.state['buttons'] == 4096:	#+
+		key = 'w'	#speed up movment only
+	if wm.state['buttons'] == 16:	#-
+                key = 'x'	#speed down movement only
 
-    time.sleep(.2)
-    print key
+	time.sleep(.1)		#chage!!
+	print key
 
-    return key
+	return key
 
 
 def vels(speed,turn):
 	return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
-
+    	#settings = termios.tcgetattr(sys.stdin)
+	
 	pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
 	rospy.init_node('teleop_twist_wiimote')
 
@@ -110,22 +106,30 @@ if __name__=="__main__":
 	status = 0
 
 	try:
-		time.sleep(1)
-		wm=cwiid.Wiimote()
+		print 'Press button 1 + 2 on your Wii Remote...'
+	        time.sleep(1)
+
+        	wm=cwiid.Wiimote()
 		print 'Wii Remote connected...'
 		print '\nPress the PLUS button to disconnect the Wii and end the application'
-		time.sleep(1)
-        	wm.rpt_mode = cwiid.RPT_BTN
-                print msg
-                print vels(speed,turn)
+        	time.sleep(1)
 
+		wm.rpt_mode = cwiid.RPT_BTN
+
+		print msg
+		print vels(speed,turn)
+
+		
+	
 		while(1):
-			key = getState(wm)
+			key = getstate(wm)
 			if key in moveBindings.keys():
+				print key
 				x = moveBindings[key][0]
 				y = moveBindings[key][1]
 				z = moveBindings[key][2]
 				th = moveBindings[key][3]
+				print x , y , z, th
 			elif key in speedBindings.keys():
 				speed = speed * speedBindings[key][0]
 				turn = turn * speedBindings[key][1]
@@ -148,7 +152,7 @@ if __name__=="__main__":
 			pub.publish(twist)
 
 	except:
-		print "error"
+		print 'ERROR!!'
 
 	finally:
 		twist = Twist()
@@ -156,5 +160,6 @@ if __name__=="__main__":
 		twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
 		pub.publish(twist)
 
+    		#termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
 
