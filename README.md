@@ -9,8 +9,7 @@ To run:
         sudo apt-get install python-cwiid   
         mkdir -p ~/catkin_ws/src  
         cd catkin_ws/src  
-        git clone https://github.com/bennergarrett/ROS_TWIST_WIIMOTE
-        mv ROS_TWIST_WIIMOTE teleop_twist_wiimotehttps://github.com/bennergarrett/ROS_TWIST_WIIMOTE
+        git clone https://github.com/bennergarrett/teleop_twist_wiimote
         cd ~/catkin_ws/src/teleop_twist_wiimote
         chmod +x teleop_twist_wiimote.py
         cd ~/catkin_ws  
