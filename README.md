@@ -26,6 +26,9 @@ To run:
          rosrun teleop_twist_wiimote teleop_twist_wiimote.py  
 ```
 #Usage  
+
+How to use wiimote button
+push
 ```
 Reading from the wiimote and Publishing to Twist!
 This section needs updating....
